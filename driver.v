@@ -24,6 +24,56 @@ module driver(
     input clk,
     input reset,
     input start,
-    output [6:0] seg
+    output [6:0] seg,
+    output decimal,
+    output S0_enable, //Least significant digit
+    output S1_enable,
+    output S2_enable,
+    output S3_enable  //most significant digit
     );
+wire clk_10ns;
+reg [3:0] seg_in; //hex input to 7 seg
+wire [3:0] s0; // value of LSD
+wire [3:0] s1; 
+wire [3:0] s2;
+wire [3:0] s3;
+
+clk_div CLK_DIV(
+.clk(clk), 
+.reset(reset),
+.clk_10ns(clk_10ns)
+);
+
+counter COUNTER(
+.startOrStop(start),
+.reset(rest),
+.clk(clk_10ns),
+.s0(s0), // Least significant digit
+.s1(s1),
+.s2(s2),
+.s3(s3)
+);
+
+digits_enable DIGITS(
+.clk(clk), // clock to refresh
+.S0_enable(S0_enable), //Least significant digit
+.S1_enable(S1_enable),
+.S2_enable(S2_enable),
+.S3_enable(S3_enable)  //most significant 
+);
+
+hex_7seg_0to9 DISPLAY(
+.in(seg_in),
+.seg(seg),
+.decimal(decimal)
+ );
+ 
+always @ (*)
+case ({S0_enable,S1_enable,S2_enable,S3_enable})
+    4'b1110: seg_in = s0;
+    4'b1101: seg_in = s1;
+    4'b1011: seg_in = s2;
+    4'b0111: seg_in = s3;
+    default: seg_in = 'b1111;  // F 
+endcase 
 endmodule
