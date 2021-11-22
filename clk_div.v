@@ -20,7 +20,7 @@ always @(posedge clk) begin
     count <= 0;
     refresh_count = 0;
   end
-  if (count < 10000000) begin //10,000,000 ns = 10 ms
+  if (count < 1000000) begin //1,000,000 ns = 10 ms
     count <= count + 1;
   end
   else begin

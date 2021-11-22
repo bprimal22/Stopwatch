@@ -76,10 +76,10 @@ hex_7seg_0to9 DISPLAY(
  
 always @ (*)
 case ({S0_enable,S1_enable,S2_enable,S3_enable})
-    4'b1110: seg_in = s0;
-    4'b1101: seg_in = s1;
-    4'b1011: seg_in = s2;
-    4'b0111: seg_in = s3;
+    4'b1110: seg_in = s3;
+    4'b1101: seg_in = s2;
+    4'b1011: seg_in = s1;
+    4'b0111: seg_in = s0;
     default: seg_in = 'b1111;  // F 
 endcase 
 endmodule

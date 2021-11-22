@@ -21,13 +21,16 @@ assign s3 = s3_temp;
 
 reg startOrStop = 0; // stores start of stop. 0 to stop and 1 to start
 
-always @ (posedge startOrStop_button)
-    begin
-         startOrStop <= ~startOrStop; 
-    end
+//always @ (*)
+//    begin
+//        if (startOrStop_button)
+//         startOrStop = ~startOrStop; 
+//    end
 
 always @(posedge clk)
 begin
+     if (startOrStop_button)
+         startOrStop = ~startOrStop; 
      if (reset)
         begin 
             s0_temp <= 0;
