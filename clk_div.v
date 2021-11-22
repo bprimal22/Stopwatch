@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-module clkgen(
+module clk_div(
 input clk, 
 input reset,
 output clk_10ns
