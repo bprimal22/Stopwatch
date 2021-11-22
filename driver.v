@@ -8,6 +8,8 @@
 // Module Name: driver
 // Project Name: 
 // Target Devices: 
+// Target Devices: 
+// Target Devices: 
 // Tool Versions: 
 // Description: 
 // 
@@ -24,6 +26,7 @@ module driver(
     input clk,
     input reset,
     input start,
+    input [9:0] sw,
     output [6:0] seg,
     output decimal,
     output S0_enable, //Least significant digit
@@ -31,7 +34,9 @@ module driver(
     output S2_enable,
     output S3_enable  //most significant digit
     );
-wire clk_10ns;
+    
+wire clk_10ms;
+wire clk_refresh;
 reg [3:0] seg_in; //hex input to 7 seg
 wire [3:0] s0; // value of LSD
 wire [3:0] s1; 
@@ -39,15 +44,16 @@ wire [3:0] s2;
 wire [3:0] s3;
 
 clk_div CLK_DIV(
-.clk(clk), 
+.clk(clk),
+.clk_refresh(clk_refresh), 
 .reset(reset),
-.clk_10ns(clk_10ns)
+.clk_10ms(clk_10ms)
 );
 
 counter COUNTER(
-.startOrStop(start),
-.reset(rest),
-.clk(clk_10ns),
+.startOrStop_button(start),
+.reset(reset),
+.clk(clk_10ms),
 .s0(s0), // Least significant digit
 .s1(s1),
 .s2(s2),
@@ -55,7 +61,7 @@ counter COUNTER(
 );
 
 digits_enable DIGITS(
-.clk(clk), // clock to refresh
+.clk(clk_refresh), // clock to refresh
 .S0_enable(S0_enable), //Least significant digit
 .S1_enable(S1_enable),
 .S2_enable(S2_enable),

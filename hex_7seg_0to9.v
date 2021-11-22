@@ -22,7 +22,7 @@
 
 module hex_7seg_0to9(
     input [3:0] in,
-    output [6:0] seg,
+    output reg [6:0] seg,
     output decimal
     );
     always @(*)

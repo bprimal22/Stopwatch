@@ -3,24 +3,31 @@
 module clk_div(
 input clk, 
 input reset,
-output clk_10ns
+output clk_10ms,
+output clk_refresh
 );
 
-reg [26:0] count = 0;
-reg temp_clk = 0;
-assign clk_10ns = temp_clk;
+reg [31:0] count = 0;
+reg [15:0] refresh_count = 0;
+assign clk_refresh = refresh_count[15];
+reg ms_clk = 0;
+assign clk_10ms = ms_clk;
 
 
 always @(posedge clk) begin
+  ms_clk <= 0;
+  if (reset)begin
+    count <= 0;
+    refresh_count = 0;
+  end
   if (count < 10000000) begin //10,000,000 ns = 10 ms
     count <= count + 1;
   end
-  else if (reset) begin
-    count = 0;
-  end
   else begin
-    temp_clk <= ~temp_clk; 
+    ms_clk <= 1; 
     count <= 0;
   end
+  refresh_count = refresh_count + 1; 
+  
 end
 endmodule
