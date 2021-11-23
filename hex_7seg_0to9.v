@@ -22,8 +22,7 @@
 
 module hex_7seg_0to9(
     input [3:0] in,
-    output reg [6:0] seg,
-    output decimal
+    output reg [6:0] seg
     );
     always @(*)
         case (in)
@@ -39,5 +38,4 @@ module hex_7seg_0to9(
             4'b1001 : seg = 7'b0000100; // 9
             default : seg = 7'b0000100; // 9
        endcase
-    assign decimal = 0;
 endmodule

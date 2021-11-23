@@ -5,7 +5,8 @@ input clk, // clock to refresh
 output S0_enable, //Least significant digit
 output S1_enable,
 output S2_enable,
-output S3_enable  //most significant digit
+output S3_enable,  //most significant digit
+output decimal
     );
 
 
@@ -15,7 +16,7 @@ assign S0_enable = on_off[0]; //S0 on; everthing else off
 assign S1_enable = on_off[1]; 
 assign S2_enable = on_off[2]; 
 assign S3_enable = on_off[3]; 
-
+assign decimal = on_off[2];
 always @(posedge clk) begin
   on_off <= {on_off[0],on_off[3:1]}; //shift the vector
 end

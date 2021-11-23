@@ -65,13 +65,13 @@ digits_enable DIGITS(
 .S0_enable(S0_enable), //Least significant digit
 .S1_enable(S1_enable),
 .S2_enable(S2_enable),
-.S3_enable(S3_enable)  //most significant 
+.S3_enable(S3_enable),  //most significant 
+.decimal(decimal)
 );
 
 hex_7seg_0to9 DISPLAY(
 .in(seg_in),
-.seg(seg),
-.decimal(decimal)
+.seg(seg)
  );
  
 always @ (*)
