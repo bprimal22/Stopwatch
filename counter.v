@@ -20,6 +20,7 @@ assign s2 = s2_temp;
 assign s3 = s3_temp;
 
 reg startOrStop = 0; // stores start of stop. 0 to stop and 1 to start
+reg prev_startOrStop = 0;
 
 //always @ (*)
 //    begin
@@ -29,7 +30,7 @@ reg startOrStop = 0; // stores start of stop. 0 to stop and 1 to start
 
 always @(posedge clk)
 begin
-     if (startOrStop_button)
+     if (startOrStop_button && !prev_startOrStop)
          startOrStop = ~startOrStop; 
      if (reset)
         begin 
@@ -50,7 +51,12 @@ begin
                         begin 
                             s2_temp <= 0;
                             if(s3_temp == 9)
-                                s3_temp <= 0;
+                                begin
+                                s0_temp <= 9;
+                                s1_temp <= 9;
+                                s2_temp <= 9;
+                                s3_temp <= 9;
+                                end
                             else
                                 s3_temp <= s3_temp + 1;
                         end else
@@ -60,6 +66,7 @@ begin
           end else
             s0_temp <= s0_temp + 1;
          end
+         prev_startOrStop <= startOrStop_button;
 end
     
 endmodule

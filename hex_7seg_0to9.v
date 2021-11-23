@@ -39,5 +39,5 @@ module hex_7seg_0to9(
             4'b1001 : seg = 7'b0000100; // 9
             default : seg = 7'b0000100; // 9
        endcase
-    assign decimal = 4'b1111;
+    assign decimal = 0;
 endmodule
