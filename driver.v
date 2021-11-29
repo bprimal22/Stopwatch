@@ -54,6 +54,9 @@ counter COUNTER(
 .startOrStop_button(start),
 .reset(reset),
 .clk(clk_10ms),
+.decrement(sw[9]),
+.load(sw[8]),
+.load_value(sw[7:0]),
 .s0(s0), // Least significant digit
 .s1(s1),
 .s2(s2),

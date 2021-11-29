@@ -4,6 +4,9 @@ module counter(
 input startOrStop_button,
 input reset,
 input clk,
+input decrement,
+input load,
+input [7:0] load_value,
 output [3:0] s0, // Least significant digit
 output [3:0] s1,
 output [3:0] s2,
@@ -33,14 +36,50 @@ begin
      if (startOrStop_button && !prev_startOrStop)
          startOrStop = ~startOrStop; 
      if (reset)
-        begin 
-            s0_temp <= 0;
-            s1_temp <= 0;
+        begin
+        s0_temp <= 0;
+        s1_temp <= 0; 
+        if (load)
+        begin
+            s2_temp = load_value[3:0] > 9 ? 9:load_value[3:0];
+            s3_temp = load_value[7:4] > 9 ? 9:load_value[7:4];
+        end
+         else 
+         begin
             s2_temp <= 0;
             s3_temp <= 0;
-
-        end else if (startOrStop == 1) // start counting
+        end
+        end 
+        else if (startOrStop == 1) // start counting
         begin
+        if(decrement) begin
+
+          if(s0_temp == 0)
+          begin
+             s0_temp <= 9;
+             if (s1_temp == 0)
+                 begin
+                    s1_temp <= 9;
+                    if (s2_temp == 0)
+                        begin 
+                            s2_temp <= 9;
+                            if(s3_temp == 0)
+                                begin
+                                s0_temp <= 0;
+                                s1_temp <= 0;
+                                s2_temp <= 0;
+                                s3_temp <= 0;
+                                end
+                            else
+                                s3_temp <= s3_temp - 1;
+                        end else
+                            s2_temp <= s2_temp - 1;
+                 end else
+                     s1_temp <= s1_temp - 1; 
+          end else
+            s0_temp <= s0_temp - 1;
+         end 
+        end else begin
           if(s0_temp == 9)
           begin
              s0_temp <= 0;
